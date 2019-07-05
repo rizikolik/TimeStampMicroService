@@ -14,19 +14,21 @@ const express      =require("express"),
 
 
 
-app.get("/api/timestamp/:date_string",(req,res,next)=>{
-
-   
+app.get("/api/timestamp/:date_string",(req,res)=>{
     let query=req.params.date_string;
     let newdate=new Date(query);
+   if(!(newdate.getTime())){
+    res.json({"error" : "Invalid Date" })
+} else{
     let utc=newdate.toUTCString();
     let unix=newdate.getTime();
     let timeobj={unix:unix, utc:utc};
-if(!timeobj){
-    res.json({"error" : "Invalid Date" })
-} else{
-    res.json(timeobj)
-}  
+    
+    
+    res.json(timeobj);
+}
+    
+
 
 
 });
